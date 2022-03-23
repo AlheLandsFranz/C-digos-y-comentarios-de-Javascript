@@ -4,9 +4,8 @@
 // pe. miFuncion("Hola Mundo") devolverá 10.
 
 ((function(string){
-  if(typeof string === "string" && isNaN(string)){
+  if(typeof string !== "string"){ return "Debe ingresar una palabra"}
     return string.length;
-  } else{ return "No es una palabra"}
 }("Hola Mundo")));
 
 // 2) Programa una función que te devuelva el texto recortado según 
@@ -160,3 +159,19 @@ const deCelsiusAFahrenheit = (grados, udc) => {
   }
 }
 console.log(deCelsiusAFahrenheit(3, "f"))
+
+function BinarioADecimal(num) {
+  // tu codigo aca
+  return num
+    .split("")
+    .reverse()
+    .reduce((acc, el, i) => (acc += el * (2 ** i)), 0);
+}                                  
+
+function DecimalABinario(num) {
+  // tu codigo aca
+  return num <= 1 
+    ? num % 2
+    : `${DecimalABinario(Math.floor(num / 2))}${num % 2}`;
+  // Cualquier elemento que esté a la derecha de un string se concatena como un string
+}
