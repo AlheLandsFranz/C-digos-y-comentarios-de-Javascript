@@ -1,3 +1,5 @@
+// Recursividad
+
 // Implementar la función countProps: a partir de un objeto en el cual cada propiedad puede contener
 // cualquier tipo de dato, determinar la cantidad de propiedades de objetos en cualquier nivel, ya sea el inicial
 // u objetos anidados
@@ -12,7 +14,8 @@ color3 : {
         color34 : "verdura"
         },
 color4 : "amarillo",
-color5 : "violeta"}
+color5 : "violeta"
+}
 
 function countProps(obj){
     let contador = 0;

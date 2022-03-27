@@ -1,4 +1,14 @@
-// {/* <><p>Código y comentarios de Javascript</p><p>Ejercicios de Jon Mircha y resoluciones</p></>
+// {/* <><p>Códigos y comentarios de Javascript</p><p>Ejercicios de Jon Mircha y resoluciones</p></>
+
+
+// Cuestiones a tener en cuenta con las arrow functiones => cuando invoquemos this se aplicará al contexto de ejecución,
+// es decir que sirve cuando invocamos una función dentro de un método de un objeto. Ya que es como si se creara en ese contexto.
+// Por ej: let hola = {
+  // saludar: function(){ 
+    // const saludo = () => {...this.nombre}} ---> hará referencia al objeto desde el cual es llamado, reemplaza al bind. 
+// }                                               sigue la referencia de la función más grande a la que pertenece.
+// Lo que pasa con la función flecha es que se crea en el momento que se crea su contexto de ejecución. Dentro de una función sirve, sino 
+// this será igual a su contexto global.
 
 // 1) Programa una función que cuente el número de caracteres de una cadena de texto, 
 // pe. miFuncion("Hola Mundo") devolverá 10.
@@ -200,9 +210,11 @@ function DecimalABinario(num) {
   let valorDeDescuento= (precio * descuento) / 100;
 return precio - valorDeDescuento})(1000,20);
 
-// 17) Programa una función que dada una fecha válida determine cuantos años han pasado hasta el día de hoy, pe. miFuncion(new Date(1984,4,23)) devolverá 35 años (en 2020).
+// 17) Programa una función que dada una fecha válida determine cuantos años han pasado hasta el día de hoy, 
+// pe. miFuncion(new Date(1984,4,23)) devolverá 35 años (en 2020).
 
-// Tantos los arreglos, como Date, Console, son objetos, por lo que siempre su typeof será objeto. En cambio, instanceof nos devuelve la instancia de la cual es ese objeto.
+// Tantos los arreglos, como Date, Console, son objetos, por lo que siempre su typeof será objeto. 
+// En cambio, instanceof nos devuelve la instancia de la cual es ese objeto.
 // Se resolvió también con Math.sign() que te devuelve -1, 0 o 1, si es negativo -1, 0 si es cero o si es positivo 1.
 function cuantosAños(fecha) {
   if(!(fecha instanceof Date)){return "Debe ingresar una fecha válida"}
@@ -219,7 +231,9 @@ let añosDiferencia = Math.floor(hoyMenos / años);
   
 console.log(cuantosAños(new Date(1995,10,07)));
 
-// 18) Programa una función que dada una cadena de texto cuente el número de vocales y consonantes, pe. miFuncion("Hola Mundo") devuelva Vocales: 4, Consonantes: 5.
+// 18) Programa una función que dada una cadena de texto cuente el número de vocales y consonantes, 
+// pe. miFuncion("Hola Mundo") devuelva Vocales: 4, Consonantes: 5.
+
 ((word) => {
   if(typeof word !== "string"){return "Debe ingresar una palabra."}
   word = word.toLowerCase()
@@ -235,3 +249,192 @@ console.log(cuantosAños(new Date(1995,10,07)));
   }
   return `Vocales: ${vocales}, Consonantes: ${consonantes}, Espacios: ${espacios}.`
 })("Alhena Landsman");
+
+// Este otro se resolvió con For Of, que sirve para recorrer cualquier elemento que sea iterable. 
+// Se resolvió además usando RegExp.test.
+
+const contarLetras = (string) => {
+   
+  if(typeof string !== "string"){return "Debe escribir un texto"}
+   
+  string2 = string.toLowerCase()
+  
+  let vocales = 0,
+      consonantes = 0;
+  
+  for(let letra of string2){
+    if(/[aeiou]/.test(letra)){vocales++}
+    else{consonantes++}
+  } 
+  return `La palabra ${string} tiene ${vocales} vocales y ${consonantes} consonantes.`
+}
+console.log(contarLetras("Alhena Landsman"));
+
+// 19) Programa una función que valide que un texto sea un nombre válido, pe. miFuncion("Jonathan MirCha") devolverá verdadero.
+
+// Resuelto con RegExp() El circunflejo "^" al principio es para que no haya nada antes. 
+// El signo dólar al final "$" es para que no haya nada después. La g es para que busque en todo el texto. 
+// Y la \s es para que reciba espacios también.
+function valido(string){
+  if(!string){return "Debe escribir su nombre."}
+  if(typeof string !== "string"){return "El nombre debe tener sólo letras."}
+  let expReg = /^[.A-Za-záéíóúüÁÉÍÓÚÜ\s]+$/g.test(string)
+  
+  return (expReg)
+  ? `El nombre ${string} ingresado es válido.`
+  : `El nombre ${string} ingresado no es válido.`;
+}
+console.log(valido("Alhena P. Landsman"));
+
+// 20) Programa una función que valide que un texto sea un email válido, pe. miFuncion("jonmircha@gmail.com") devolverá verdadero.
+
+function emailValido(email){
+  if(!email){return "Debe escribir su email"}
+  if(typeof email !== "string"){return "El email debe tener sólo letras y símbolos correspondientes."}
+  let expReg = /[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9]+(\.[a-z0-9]+)*(\.[a-z]{2,15})/i.test(email);
+  
+  return (expReg)
+  ? `El nombre ${email} ingresado es válido.`
+  : `El nombre ${email} ingresado no es válido.`
+}
+console.log(emailValido("alhenaplandsman@gmail.com"));
+
+// 21) Programa una función que dado un array numérico devuelve otro array con los números elevados al cuadrado, 
+// pe. mi_funcion([1, 4, 5]) devolverá [1, 16, 25].
+
+// Con un for:
+((array) => {
+  if(!(array instanceof Array)){return "Debe ingresar un arreglo de números"}
+  if(array.length === 0){return "Debes ingresar un arreglo con números."}
+  let newArray = [];
+  for(let i = 0; i < array.length; i++){
+    if(typeof array[i] !== "number"){return `El valor ${array[i]} ingresado no es un número`}
+    newArray.push(array[i] ** 2)
+  }; return newArray;
+})([]);
+
+// Con map(elemento, indice, arreglo)
+((array) => {
+  if(!(array instanceof Array)){return "Debe ingresar un arreglo de números"}
+  if(array.length === 0){return "Debes ingresar un arreglo con números."}
+  let newArray = array.map(el => {
+    if(typeof el !== "number"){return `El valor ${el} ingresado no es un número`}
+    return el ** 2})
+  return newArray}
+)([20, "g", 5]);
+
+// Con reduce(acumulador, elemento, indice, arreglo)
+((array) => {
+  if(!(array instanceof Array)){return "Debe ingresar un arreglo de números"}
+  if(array.length === 0){return "Debes ingresar un array con números."}
+  let newArray = array.reduce((acc, el) => {acc.push(el ** 2); return acc}, [])
+  return newArray}
+)([10, 4, 5]);
+
+// 22) Programa una función que dado un array devuelva el número más alto y el más bajo de dicho array, 
+// pe. miFuncion([1, 4, 5, 99, -60]) devolverá [99, -60].
+
+function menorMayor(array) {
+   if(!(array instanceof Array)){return "Debe ingresar un arreglo de números"}
+  if(array.length === 0){return "Debes ingresar un arreglo con números."}
+  let min = array[0];
+  let max = array[0]; 
+  for(let i = 0; i < array.length; i++){
+    if(array[i] < min){min = array[i]}
+    if(array[i] > max){max = array[i]}
+   } return [max, min]
+}
+console.log(menorMayor([2, 5, 6, 1, 10]));
+
+const mayorYMenor = array => {
+ if(!(array instanceof Array)){return "Debe ingresar un arreglo de números"}
+ if(array.length === 0){return "Debes ingresar un arreglo con números."}
+  for(let num of array){if(typeof num !== "number"){return `El valor ${num} no es un número`}}
+  return `El arreglo original: ${array}\nEl máximo valor: ${Math.max(...array)}\nEl mínimo valor: ${Math.min(...array)}.`
+}
+console.log(mayorYMenor([2, 5, 6, 1, 10]));
+console.log(mayorYMenor([]));
+console.log(mayorYMenor([2, 5, "hola"]));
+
+// 23) Programa una función que dado un array de números devuelva un objeto con 2 arreglos. 
+// En el primero almacena los números pares y en el segundo los impares, 
+// pe. miFuncion([1,2,3,4,5,6,7,8,9,0]) devolverá {pares: [2,4,6,8,0], impares: [1,3,5,7,9]}.
+
+// Resuelto con un for:
+(array => {
+  if(!(array instanceof Array)){return "Debe ingresar un arreglo de números"}
+ if(array.length === 0){return "Debes ingresar un arreglo con números."}
+  let pares = []
+  let impares = [];
+  for(let i = 0; i < array.length; i++){
+    if(array[i] % 2 === 0){pares.push(array[i])}
+    else{impares.push(array[i])}
+  } return `Los números pares son: ${pares}, e impares son: ${impares}.`
+})([1, 5, 6, 4, 8]);
+
+// Resuelto con un filter(elemento, indice, arreglo)
+(array => {
+  if(!(array instanceof Array)){return "Debe ingresar un arreglo de números"}
+ if(array.length === 0){return "Debes ingresar un arreglo con números."}
+  let pares = array.filter(el => el % 2 === 0)
+  let impares = array.filter(el => el % 2 !== 0)
+  console.log({
+    pares: pares,
+    impares: impares
+  })
+  return `Los números pares son: ${pares}, e impares son: ${impares}.`
+})([1, 52, 6, 8, 15]);
+
+// 24) Programa una función que dado un arreglo de números devuelva un objeto con dos arreglos, el primero tendrá los numeros ordenados en forma ascendente y el segundo de forma descendiente, pe. miFuncion([7, 5,7,8,6]) devolverá { asc: [5,6,7,7,8], desc: [8,7,7,6,5] }. 
+
+                 // 1el 2el 
+// Resuelto con sort(a , b) para ordenar. Como array es un objeto, al aplicar sólo sort se cambia el valor de su referencia, es decir, modifica al array original. En ese caso, las dos variables trabajan sobre un mismo valor final. Por lo que encerrando en [] al array, junto con el Spread operator (...) para recibir todos los elementos que contenga el array, se trabaja con los valores dentro del array, y no con el array en sí. Evitamos así modificar el array original. 
+const arraysOrdenados = array => {
+  if(!(array instanceof Array)){return `${array} no es un arreglo.`}
+   for(let el of array){if(typeof el !== "number"){return `El valor ${el} no es un número. Debe ser un arreglo de números.`}}
+ //  puede ser así tmb: asc= array.map(el => el).sort(...)         
+ //                    el map en este caso pasa todos los elementos a un nuevo arreglo
+ let ascendente = [...array.sort((a,b) => a - b)];
+    console.log(array)
+ let descendente = [...array.sort((a, b) => b - a)];
+   console.log(array)
+ //  podemos tmb invocar solo sort() y nos ordena, y sort().reverse() para hacerlo descendiente
+ return {asc: ascendente,
+         desc: descendente}
+ }
+ console.log(arraysOrdenados([1, 6, 5, 3, 4, 8]));
+ 
+ // 25) Programa una función que dado un arreglo de elementos, elimine los duplicados, pe. miFuncion(["x", 10, "x", 2, "10", 10, true, true]) devolverá ["x", 10, 2, "10", true].
+ // Se resolvió con un Set. En los sets, cada valor es único, no se repite. Por lo que al recibir el argumento de un arreglo con spread operator, lo que hizo fue eliminar los que se repetían.
+ // Se puede hacer con un For e includes(). Este método sirve para saber si un elemento en el arreglo ya existe.
+ // Spread operator sirve para tomar y usar los elementos de un arreglo como argumento en  una función. También se usa para concatenar arreglos, o sumar valores en un arreglo. Sólo se debe llamar el nombre del arreglo precedido por ... Por ejemplo arr3 = [...arr1, ...arr2]
+ 
+ function elim(array){
+   if(!(array instanceof Array)){return `${array} no es un arreglo.`}
+   if(array.length < 2){return "El arreglo debe tener al menos 2 elementos."}
+   const mySet = new Set(array) // puede ser sino mySet = [...new Set(array)]
+   return [...mySet]
+   
+ }
+ console.log(elim([1, "hola", 33, 1, "hola", 6, true, true, 5]));
+ 
+ function elimDupli(array){
+   if(!(array instanceof Array)){return `${array} no es un arreglo.`}
+   let newArray = []
+   for(let i = 0; i < array.length; i++){
+     if(!(newArray.includes(array[i]))){
+       newArray.push(array[i])} 
+ } return newArray;
+ }
+ console.log(elimDupli([1, "holaaaa", 55, 1,2,1,3,5, "holaaaa", 6, true, true, 5]));
+ 
+ // 26) Programa una función que dado un arreglo de números obtenga el promedio, pe. promedio([9,8,7,6,5,4,3,2,1,0]) devolverá 4.5.
+ // Resuelto con reduce(acumulador, elemento, indice,arreglo)
+ (array => {
+   if(!(array instanceof Array)){return `${array} no es un arreglo.`}
+   for(let el of array){if(typeof el !== "number"){return `El valor ${el} no es un número. Debe ser un arreglo de números.`}}
+   
+   let promedio = array.reduce((acc, el) => acc+= el)
+   let total = Math.round(promedio / (array.length));
+   return total;
+ })([8, 7, 9, 10,8, 5, 8, 10]);
